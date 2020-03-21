@@ -1,13 +1,16 @@
 num = @{ int ~ ("." ~ ASCII_DIGIT*)? ~ (^"e" ~ int)? }
     int = { ("+" | "-")? ~ ASCII_DIGIT+ }
-var = { ASCII_ALPHA }
-val = _{ num | var }
-operation = _{ add | subtract | multiply | divide | power }
+var = { ASCII_ALPHA+ }
+
+hole = { "?" ~ var }
+val = _{ num | var | hole }
+operation = _{ add | subtract | multiply | divide | shr | shl }
     add      = { "+" }
     subtract = { "-" }
     multiply = { "*" }
     divide   = { "/" }
-    power    = { "^" }
+    shr   = { ">>" }
+    shl   = { "<<" }
 
 expr = { term ~ (operation ~ term)* }
 term = _{ val | "(" ~ expr ~ ")" }
